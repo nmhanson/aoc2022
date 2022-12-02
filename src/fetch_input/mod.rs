@@ -1,3 +1,4 @@
+#![allow(unused)]
 use std::{env, fmt::Display, fs};
 
 pub struct InputFetcher {
@@ -6,6 +7,7 @@ pub struct InputFetcher {
 
 impl InputFetcher {
     pub fn new() -> Self {
+        dotenv::dotenv();
         InputFetcher {
             client: reqwest::blocking::Client::new(),
         }
@@ -26,6 +28,10 @@ impl InputFetcher {
             .client
             .get(url)
             .header("Cookie", session)
+            .header(
+                "User-Agent",
+                "https://github.com/nmhanson/aoc2022 by nathanmhanson@icloud.com",
+            )
             .send()
             .ok()
             .filter(|resp| resp.status().is_success())
