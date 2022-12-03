@@ -1,12 +1,12 @@
 #![allow(unused)]
 mod part_one {
-    pub fn solution() {
+    pub fn solution(input: &str) {
         todo!()
     }
 }
 
 mod part_two {
-    pub fn solution() {
+    pub fn solution(input: &str) {
         todo!()
     }
 }
