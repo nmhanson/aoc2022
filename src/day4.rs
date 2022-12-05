@@ -93,7 +93,7 @@ mod run {
 
     #[test]
     fn run() {
-        let input = InputFetcher::new().fetch_input(2022, 4); // Set year & day
+        let input = InputFetcher::new().fetch_input(2022, 4);
         part_one::solution(&input);
         part_two::solution(&input);
     }
