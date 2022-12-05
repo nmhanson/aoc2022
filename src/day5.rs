@@ -8,37 +8,37 @@ mod part_one {
 
         for mv in input.moves.iter() {
             for _ in 0..mv.amt {
-                let c = input.crates[mv.from - 1].pop().unwrap();
-                input.crates[mv.to - 1].push(c);
+                let c = input.crates[mv.from - 1].pop_back().unwrap();
+                input.crates[mv.to - 1].push_back(c);
             }
         }
         let tops = input
             .crates
             .iter()
-            .map(|stack| stack.last().unwrap().to_owned())
+            .map(|stack| stack.back().unwrap().to_owned())
             .fold(String::new(), |res, c| format!("{}{}", res, c));
         println!("part_one: {}", tops)
     }
 }
 
 mod part_two {
-    use std::str::FromStr;
+    use std::{collections::VecDeque, str::FromStr};
 
     use super::crates::Input;
     pub fn solution(input: &str) {
         let mut input = Input::from_str(input).unwrap();
 
         for mv in input.moves.iter() {
-            let mut crates: Vec<char> = vec![];
+            let mut crates: VecDeque<char> = VecDeque::new();
             for _ in 0..mv.amt {
-                crates.insert(0, input.crates[mv.from - 1].pop().unwrap());
+                crates.insert(0, input.crates[mv.from - 1].pop_back().unwrap());
             }
             input.crates[mv.to - 1].append(&mut crates);
         }
         let tops = input
             .crates
             .iter()
-            .map(|stack| stack.last().unwrap().to_owned())
+            .map(|stack| stack.back().unwrap().to_owned())
             .fold(String::new(), |res, c| format!("{}{}", res, c));
         println!("part_two: {}", tops)
     }
@@ -46,10 +46,10 @@ mod part_two {
 
 mod crates {
     use anyhow::{anyhow, Error, Ok};
-    use std::str::FromStr;
+    use std::{collections::VecDeque, str::FromStr};
 
     pub struct Input {
-        pub crates: Vec<Vec<char>>,
+        pub crates: Vec<VecDeque<char>>,
         pub moves: Vec<Move>,
     }
 
@@ -68,16 +68,16 @@ mod crates {
         }
     }
 
-    fn parse_crate_input(s: &str) -> Vec<Vec<char>> {
+    fn parse_crate_input(s: &str) -> Vec<VecDeque<char>> {
         let rows = s
             .lines()
             .map(|l| l.chars().collect::<Vec<char>>())
             .map(|chars| chars_to_crates(&chars))
             .collect::<Vec<_>>();
 
-        let mut stacks: Vec<Vec<char>> = vec![];
+        let mut stacks: Vec<VecDeque<char>> = vec![];
         for r in rows.iter() {
-            stacks.push(vec![]);
+            stacks.push(VecDeque::new());
         }
         for r in rows.iter() {
             for (i, s) in r.iter().enumerate() {
