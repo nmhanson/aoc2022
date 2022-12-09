@@ -47,7 +47,7 @@ mod part_two {
 mod pairs {
     use std::str::FromStr;
 
-    use anyhow::{anyhow, Error};
+    use anyhow::{anyhow, bail, Error};
     use lazy_static::lazy_static;
     use regex::Regex;
     lazy_static! {
@@ -79,7 +79,7 @@ mod pairs {
 
             match elves {
                 (Some(c1), Some(c2), Some(c3), Some(c4)) => Ok(Self((c1, c2), (c3, c4))),
-                _ => Err(anyhow!("Failed to parse all capture groups")),
+                _ => bail!("Failed to parse all capture groups"),
             }
         }
     }
